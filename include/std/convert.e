@@ -1,4 +1,3 @@
---# This file uses ISO-8859-1 encoding
 --****
 -- == Data Type Conversion
 --
@@ -23,6 +22,11 @@ constant
 
 constant M_ALLOC = 16
 atom mem  = machine_func(M_ALLOC,8)
+
+-- Character codes in ISO8859-1 
+-- '$', 'Â£', 'Â¤', 'Â¥', 'Â€'
+constant POUND = #A3, CURRENCY = #A4, YEN = #A5, EURO = #80 
+
 
 --****
 -- === Routines
@@ -593,7 +597,7 @@ end function
 -- the result by a further 10. Thus ##3845%## gives a value of ##(3845 / 100) ==> 38.45##,
 -- and ##3845%%## gives a value of ##(3845 / 1000) ==> 3.845##.
 -- # You can have single currency symbol before the first digit or after the last
--- digit. A currency symbol is any character of the string: "$£¤¥€".
+-- digit. A currency symbol is any character of the string: "$Â£Â¤Â¥Â€".
 -- # You can have any number of whitespace characters before the first digit and
 -- after the last digit.
 -- # The currency, sign and base symbols can appear in any order. Thus ##"$ -21.10"## is
@@ -689,7 +693,7 @@ public function to_number( sequence text_in, integer return_bad_pos = 0)
 					lBadPos = i
 				end if
 
-			case '$', '£', '¤', '¥', '€' then
+			case '$', POUND, CURRENCY, YEN, EURO then
 				if lCurrencyFound = 0 then
 					lCurrencyFound = 1
 					lLastDigit = lDigitCount

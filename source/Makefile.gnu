@@ -809,7 +809,7 @@ htmldoc : $(BUILDDIR)/html/index.html
 
 pdfdoc : $(BUILDDIR)/euphoria.pdf
 
-$(BUILDDIR)/pdf/euphoria.txt : $(EU_DOC_SOURCE)
+$(BUILDDIR)/pdf/euphoria.txt : $(EU_DOC_SOURCE) $(TRUNKDIR)/License.txt
 	-mkdir -p $(BUILDDIR)/pdf
 	$(EUDOC) -d PDF --single --strip=2 -a $(TRUNKDIR)/docs/manual.af -o $(CYPBUILDDIR)/pdf/euphoria.txt
 

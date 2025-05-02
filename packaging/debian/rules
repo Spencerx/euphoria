@@ -17,12 +17,12 @@ export DH_VERBOSE=1
 export DH_OPTIONS
 
 
-include ../Makefile.eu
+include Makefile.eu
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
 else
-	CFLAGS += -O2
+	CFLAGS += -O3
 endif
 
 configure: configure-stamp
@@ -47,10 +47,7 @@ build-indep: build-indep-stamp
 build-indep-stamp: configure-stamp 
 	# Add here commands to compile the indep part of the package.
 	echo TARGET build-index-stamp
-	$(MAKE) -C source htmldoc pdfdoc-initial
-	$(MAKE) -C source  pdfdoc-initial
-	$(MAKE) -C source  pdfdoc-initial
-	$(MAKE) -C source  pdfdoc-initial
+	$(MAKE) -C source htmldoc
 	touch $@
 
 clean:
@@ -69,7 +66,8 @@ install-indep:
 	echo TARGET install-indep
 	dh_testdir
 	dh_testroot
-	dh_clean -k -i 
+	dh_clean -k -i
+	-rm  euphoria/debian/euphoria
 	dh_installdirs -i
 	# Add here commands to install the indep part of the package into
 	# debian/<package>-doc.
@@ -81,7 +79,8 @@ install-arch:
 	dh_testdir
 	dh_testroot
 	dh_clean -k -s 
-	dh_installdirs -s
+	-rm  euphoria/debian/euphoria
+	#dh_installdirs -s
 	# Add here commands to install the arch part of the package into 
 	# debian/tmp.
 	$(MAKE) DESTDIR=$(CURDIR)/debian/euphoria install install-docs install-tools
